@@ -1,0 +1,23 @@
+---
+name: "The Dragon"
+class: "Creature"
+speed: -2
+health: 90000
+health_max: 90000
+power: 5000
+critical_chance: 0.1
+attack_type: "all"
+dt: 0
+dr: 0.0
+tags:
+  - "null"
+auras:
+  - statistic: "health"
+    target: "allies"
+    value: 0.4
+abilities:
+  - statistic: "null"
+    target: "null"
+    value: 0.0
+xp: 0
+level: 1

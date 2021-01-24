@@ -1,0 +1,23 @@
+---
+name: "The Good Rogue"
+class: "Rogue"
+speed: -1
+health: 65000
+health_max: 65000
+power: 18500
+critical_chance: 0.15
+attack_type: "single"
+dt: 0
+dr: 0.0
+tags:
+  - "flanker"
+auras:
+  - statistic: "health"
+    target: "allies"
+    value: 0.4
+abilities:
+  - statistic: "null"
+    target: "null"
+    value: 0.0
+xp: 0
+level: 1

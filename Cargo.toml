@@ -1,0 +1,11 @@
+[package]
+name = "rust_strategy_rpg"
+version = "0.1.0"
+authors = ["Adam <23548388+Adam-Diehl@users.noreply.github.com>"]
+edition = "2018"
+
+[dependencies]
+colored = "2" # for formatted terminal output
+rand = "0.7.3"
+serde = { version = "1.0", features = ["derive"] }
+serde_yaml = "0.8"

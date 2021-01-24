@@ -1,0 +1,6 @@
+---
+members:
+  - GoodTank # Front-Left
+  - GoodSwordsman # Front-Right
+  - GoodMeleeRogue # Back-Left
+  - GoodArcherRogue # Back-Right
