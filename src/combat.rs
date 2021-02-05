@@ -1,9 +1,8 @@
 use crate::configs;
-use crate::modifiers;
-use modifiers::Aura;
-use modifiers::Ability;
 use crate::character;
 use character::Character;
+use crate::modifiers::Aura; // used by tests
+use crate::modifiers::Ability; // used by tests
 use crate::targeting;
 use rand;
 

@@ -13,7 +13,7 @@ tags:
   - "null"
 auras:
   - statistic: "health"
-    target: "allies"
+    target: "self"
     value: 0.4
 abilities:
   - statistic: "null"

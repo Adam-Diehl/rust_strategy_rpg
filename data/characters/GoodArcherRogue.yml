@@ -12,9 +12,9 @@ dr: 0.0
 tags:
   - "null"
 auras:
-  - statistic: "health"
-    target: "allies"
-    value: 0.4
+  - statistic: "power"
+    target: "self"
+    value: 0.3
 abilities:
   - statistic: "null"
     target: "null"

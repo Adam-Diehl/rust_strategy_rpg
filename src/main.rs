@@ -23,12 +23,12 @@ fn main() {
     let current_path = Path::new("/Users/Presidente/Documents/Programming/Games/hero_battle/data/characters");
     assert!(env::set_current_dir(&current_path).is_ok());
 
-    // let hero_filepath: String = "/Users/Presidente/Documents/Programming/Games/hero_battle/data/squad/test_hero_squad.yml".to_string();
+    let hero_filepath: String = "/Users/Presidente/Documents/Programming/Games/hero_battle/data/squad/test_hero_squad.yml".to_string();
     let villain_filepath: String = "/Users/Presidente/Documents/Programming/Games/hero_battle/data/squad/test_villain_squad.yml".to_string();
     let character_folder = "/Users/Presidente/Documents/Programming/Games/hero_battle/data/characters/";
 
-    // let mut heroes: Vec<Character> = squad::squad_from_file(hero_filepath, &character_folder);
-    let mut heroes: Vec<Character> = squad::squad_from_input(&character_folder);
+    let mut heroes: Vec<Character> = squad::squad_from_file(hero_filepath, &character_folder);
+    // let mut heroes: Vec<Character> = squad::squad_from_input(&character_folder);
     let mut villains: Vec<Character> = squad::squad_from_file(villain_filepath, &character_folder);
 
     combat::run_combat(&mut heroes, &mut villains);

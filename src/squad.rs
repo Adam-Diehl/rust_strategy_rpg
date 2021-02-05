@@ -7,6 +7,7 @@ use std::path::Path;
 use crate::character;
 use character::Character;
 use crate::input;
+use crate::modifiers::Apply;
 
 #[derive(Deserialize)]
 pub struct SquadConstructor {
@@ -52,26 +53,62 @@ impl SquadConstructor {
 
 /* --------------------------------------------------------------------------------------------- */
 
-// fn apply_auras()
+fn apply_auras(mut squad: Vec<Character>) -> Vec<Character> {
+    for character in squad.iter_mut() {
+        for aura in character.auras.iter() {
+            if aura.target == "self".to_string() && aura.statistic == "health".to_string() {
+                let new_health: i32 = aura.change_health(character.health_max);
+                character.health_max = new_health;
+                character.health = new_health;
+            } else if aura.target == "self".to_string() && aura.statistic == "power".to_string() {
+                let new_power: i32 = aura.change_power(character.power);
+                character.power = new_power;
+            } else {
+
+            }
+        }
+    }
+    return squad;
+}
 
 /* --------------------------------------------------------------------------------------------- */
 
 pub fn squad_from_file(filepath: String, directory_characters: &str) -> Vec<Character> {
     let squad_member_names = SquadConstructor::new_from_file(&filepath);
-    let mut squad_output = Vec::with_capacity(5);
+    let mut squad = Vec::with_capacity(5);
     for character_string in squad_member_names.members.iter() {
         let character_path: &str = &format!("{}{}.yml", directory_characters, &character_string);
-        squad_output.push(Character::new_from_file(character_path));
+        squad.push(Character::new_from_file(character_path));
     }
+    let squad_output = apply_auras(squad);
     return squad_output;
 }
 
 pub fn squad_from_input(directory_characters: &str) -> Vec<Character> {
     let squad_member_names = SquadConstructor::build_from_input();
-    let mut squad_output = Vec::with_capacity(5);
+    let mut squad = Vec::with_capacity(5);
     for character_string in squad_member_names.members.iter() {
         let character_path: &str = &format!("{}{}.yml", directory_characters, &character_string);
-        squad_output.push(Character::new_from_file(character_path));
+        squad.push(Character::new_from_file(character_path));
     }
+    let squad_output = apply_auras(squad);
     return squad_output;
 }
+
+/* --------------------------------------------------------------------------------------------- */
+
+// #[cfg(test)]
+// mod tests {
+//     use super::*;
+//
+//     // Aura struct tests
+//     #[test]
+//     fn test_squad_apply_auras() {
+//         let mut test_squad: Vec<Character> = squad::squad_from_file(hero_filepath, &character_folder);
+//
+//
+//
+//         assert_eq!(new_value, EXPECTED_VALUE);
+//
+//     }
+// }

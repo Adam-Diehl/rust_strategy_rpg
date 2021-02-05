@@ -17,12 +17,12 @@ pub struct Character {
     pub class: String,
     pub speed: i32,
     pub health: i32,
-    health_max: i32,
+    pub health_max: i32,
     pub power: i32,
     pub critical_chance: f64,
     pub attack_type: String,
-    dt: i32, // damage threshold (flat amount of damage ignored)
-    dr: f64, // damage reduction (percent taken off the top)
+    pub dt: i32, // damage threshold (flat amount of damage ignored)
+    pub dr: f64, // damage reduction (percent taken off the top)
     pub tags: Vec<String>, // modifiers/properties characters can possess
     pub auras: Vec<Aura>,
     pub abilities: Vec<Ability>,

@@ -24,9 +24,9 @@ pub trait Apply {
 // Used by Character struct
 #[derive(Debug, PartialEq, Deserialize)]
 pub struct Aura {
-    statistic: String,
-    target: String,
-    value: f64
+    pub statistic: String,
+    pub target: String,
+    pub value: f64
 }
 
 impl Aura {
@@ -41,7 +41,7 @@ impl Apply for Aura {
         return base_value.into() * (1.0 + self.value)
     }
 
-    // Auras don't need a reference to maximum health because they can change it
+    // Auras don't need a reference to maximum health because they can change it (abilities will need a cap)
     fn change_health(&self, base_value: i32) -> i32 {
         return self.convert_and_multiply(base_value).round() as i32
     }
