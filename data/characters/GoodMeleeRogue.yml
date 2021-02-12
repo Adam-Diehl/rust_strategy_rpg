@@ -13,11 +13,12 @@ tags:
   - "flanker"
 auras:
   - statistic: "health"
-    target: "self"
-    value: 0.4
+    target: "allies"
+    value: 0.2
 abilities:
   - statistic: "null"
     target: "null"
     value: 0.0
 xp: 0
 level: 1
+description: "Flanker. Attacks a single enemy.\nGrants self 40% health."

@@ -13,10 +13,13 @@ File structure:
 
 use serde::Deserialize;
 
+use crate::configs;
+
 pub trait Apply {
     fn convert_and_multiply<T: Into<f64> + Copy>(&self, base_value: T) -> f64;
     fn change_health(&self, base_value: i32) -> i32;
     fn change_power(&self, base_value: i32) -> i32;
+    fn change_crit_chance(&self, base_value: f64) -> f64;
 }
 
 /* --------------------------------------------------------------------------------------------- */
@@ -49,6 +52,12 @@ impl Apply for Aura {
     // Power is uncapped
     fn change_power(&self, base_value: i32) -> i32 {
         return self.convert_and_multiply(base_value).round() as i32
+    }
+
+    // Crit chance is capped at 99%
+    fn change_crit_chance(&self, base_value: f64) -> f64 {
+        let new_crit_chance: f64 = self.convert_and_multiply(base_value);
+        return new_crit_chance.min(configs::CRITICAL_CHANCE_CAP)
     }
 }
 
@@ -131,6 +140,18 @@ mod tests {
         const EXPECTED_VALUE: i32 = 140;
 
         let new_value = test_aura.change_power(INPUT_BASE);
+
+        assert_eq!(new_value, EXPECTED_VALUE);
+    }
+
+    #[test]
+    fn test_aura_change_crit_chance() {
+        const INPUT_BASE: f64 = 0.25;
+        const VALUE: f64 = 0.2;
+        let test_aura = Aura::new("critical chance", "self", VALUE);
+        const EXPECTED_VALUE: f64 = 0.3;
+
+        let new_value = test_aura.change_crit_chance(INPUT_BASE);
 
         assert_eq!(new_value, EXPECTED_VALUE);
     }

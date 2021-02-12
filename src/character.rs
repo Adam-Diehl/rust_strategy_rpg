@@ -27,7 +27,8 @@ pub struct Character {
     pub auras: Vec<Aura>,
     pub abilities: Vec<Ability>,
     xp: i32,
-    pub level: u32
+    pub level: u32,
+    pub description: String
 }
 
 // Read a character from file
@@ -69,7 +70,8 @@ impl Character {
             auras: auras,
             abilities: abilities,
             xp: 0,
-            level: 1
+            level: 1,
+            description: "null".to_string()
         }
     }
 
@@ -124,6 +126,16 @@ impl Character {
     pub fn print_debug_stats(&self) {
         println!("Current Statistics: {}", self.name);
         println!("{:?}", self);
+    }
+
+    pub fn print_pretty_stats(&self) {
+        println!("--------------------");
+        println!("| Name: {}", self.name);
+        println!("| Health: {}", self.health);
+        println!("| Power: {}", self.power);
+        println!("| Crit. Chance: {}%", 100.0 * self.critical_chance);
+        println!("{}", self.description);
+        println!("--------------------\n");
     }
 
     // IO => Combat IO

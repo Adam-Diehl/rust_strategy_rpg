@@ -15,9 +15,13 @@ auras:
   - statistic: "power"
     target: "self"
     value: 0.3
+  - statistic: "critical chance"
+    target: "allies"
+    value: 0.2
 abilities:
   - statistic: "null"
     target: "null"
-    value: 0.0
+    value: 0.2
 xp: 0
 level: 1
+description: "Attacks a column.\nGrants allies 30% extra power and 20% extra critical chance."

@@ -14,10 +14,11 @@ tags:
 auras:
   - statistic: "health"
     target: "allies"
-    value: 0.4
+    value: 0.3
 abilities:
   - statistic: "null"
     target: "null"
     value: 0.0
 xp: 0
 level: 1
+description: "Attacks a single enemy.\nGrants allies 30% health."

@@ -28,8 +28,14 @@ fn main() {
     let character_folder = "/Users/Presidente/Documents/Programming/Games/hero_battle/data/characters/";
 
     let mut heroes: Vec<Character> = squad::squad_from_file(hero_filepath, &character_folder);
+    for hero in heroes.iter() {
+        hero.print_pretty_stats();
+    }
     // let mut heroes: Vec<Character> = squad::squad_from_input(&character_folder);
     let mut villains: Vec<Character> = squad::squad_from_file(villain_filepath, &character_folder);
+    for villains in villains.iter() {
+        villains.print_pretty_stats();
+    }
 
     combat::run_combat(&mut heroes, &mut villains);
 }

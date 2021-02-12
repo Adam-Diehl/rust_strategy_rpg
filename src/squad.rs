@@ -70,6 +70,9 @@ fn apply_auras(mut squad: Vec<Character>) -> Vec<Character> {
                 } else if aura.statistic == "power".to_string() {
                     let new_power: i32 = aura.change_power(character.power);
                     character.power = new_power;
+                } else if aura.statistic == "critical chance".to_string() {
+                    let new_crit: f64 = aura.change_crit_chance(character.critical_chance);
+                    character.critical_chance = new_crit;
                 }
             } else { // collect for deferred initialization
                 deferred_auras.push(aura.clone());
@@ -87,6 +90,9 @@ fn apply_auras(mut squad: Vec<Character>) -> Vec<Character> {
                 } else if aura.statistic == "power".to_string() {
                     let new_power: i32 = aura.change_power(character.power);
                     character.power = new_power;
+                } else if aura.statistic == "critical chance".to_string() {
+                    let new_crit: f64 = aura.change_crit_chance(character.critical_chance);
+                    character.critical_chance = new_crit;
                 }
             }
         }
