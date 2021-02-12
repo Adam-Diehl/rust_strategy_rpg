@@ -187,7 +187,8 @@ mod tests {
         let expected_abilities: Vec<Ability> = vec![Ability::new("null", "null", 0.0)];
 
         let test_character = Character::new(EXPECTED_NAME, EXPECTED_CLASS, EXPECTED_SPEED,
-            EXPECTED_HEALTH, EXPECTED_POWER, EXPECTED_CRIT, &expected_attack_type, EXPECTED_DT, EXPECTED_DR, input_tags, input_auras, input_abilities);
+            EXPECTED_HEALTH, EXPECTED_POWER, EXPECTED_CRIT, &expected_attack_type, EXPECTED_DT,
+            EXPECTED_DR, input_tags, input_auras, input_abilities);
 
         assert_eq!(test_character.name, EXPECTED_NAME);
         assert_eq!(test_character.class, EXPECTED_CLASS);
@@ -219,7 +220,8 @@ mod tests {
         const INCOMING_DAMAGE: i32 = 10;
         const EXPECTED_HEALTH: i32 = 10;
 
-        let mut test_character = Character::new(NAME, CLASS, SPEED, HEALTH, POWER, CRITICAL_CHANCE, &attack_type, DT, DR, tags, auras, abilities);
+        let mut test_character = Character::new(NAME, CLASS, SPEED, HEALTH, POWER, CRITICAL_CHANCE,
+            &attack_type, DT, DR, tags, auras, abilities);
         test_character.take_damage(INCOMING_DAMAGE, CRIT);
         assert_eq!(test_character.health, EXPECTED_HEALTH);
     }
@@ -242,7 +244,8 @@ mod tests {
         const INCOMING_DAMAGE: i32 = 15;
         const EXPECTED_HEALTH: i32 = 6;
 
-        let mut test_character = Character::new(NAME, CLASS, SPEED, HEALTH, POWER, CRITICAL_CHANCE, &attack_type, DT, DR, tags, auras, abilities);
+        let mut test_character = Character::new(NAME, CLASS, SPEED, HEALTH, POWER, CRITICAL_CHANCE,
+            &attack_type, DT, DR, tags, auras, abilities);
         test_character.take_damage(INCOMING_DAMAGE, CRIT);
         assert_eq!(test_character.health, EXPECTED_HEALTH);
     }
@@ -265,7 +268,8 @@ mod tests {
         const INCOMING_DAMAGE: i32 = 50;
         const EXPECTED_HEALTH: i32 = 60;
 
-        let mut test_character = Character::new(NAME, CLASS, SPEED, HEALTH, POWER, CRITICAL_CHANCE, &attack_type, DT, DR, tags, auras, abilities);
+        let mut test_character = Character::new(NAME, CLASS, SPEED, HEALTH, POWER, CRITICAL_CHANCE,
+            &attack_type, DT, DR, tags, auras, abilities);
         test_character.take_damage(INCOMING_DAMAGE, CRIT);
         assert_eq!(test_character.health, EXPECTED_HEALTH);
     }
@@ -288,7 +292,8 @@ mod tests {
         const INCOMING_DAMAGE: i32 = 50;
         const EXPECTED_HEALTH: i32 = 61;
 
-        let mut test_character = Character::new(NAME, CLASS, SPEED, HEALTH, POWER, CRITICAL_CHANCE, &attack_type, DT, DR, tags, auras, abilities);
+        let mut test_character = Character::new(NAME, CLASS, SPEED, HEALTH, POWER, CRITICAL_CHANCE,
+            &attack_type, DT, DR, tags, auras, abilities);
         test_character.take_damage(INCOMING_DAMAGE, CRIT);
         assert_eq!(test_character.health, EXPECTED_HEALTH);
     }
@@ -311,7 +316,8 @@ mod tests {
         const INCOMING_DAMAGE: i32 = 40;
         const EXPECTED_DEATH: bool = true;
 
-        let mut test_character = Character::new(NAME, CLASS, SPEED, HEALTH, POWER, CRITICAL_CHANCE, &attack_type, DT, DR, tags, auras, abilities);
+        let mut test_character = Character::new(NAME, CLASS, SPEED, HEALTH, POWER, CRITICAL_CHANCE,
+            &attack_type, DT, DR, tags, auras, abilities);
         test_character.take_damage(INCOMING_DAMAGE, CRIT);
         let death_result = test_character.is_dead();
 

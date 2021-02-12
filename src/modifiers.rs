@@ -22,7 +22,7 @@ pub trait Apply {
 /* --------------------------------------------------------------------------------------------- */
 
 // Used by Character struct
-#[derive(Debug, PartialEq, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Deserialize)]
 pub struct Aura {
     pub statistic: String,
     pub target: String,
@@ -54,8 +54,15 @@ impl Apply for Aura {
 
 /* --------------------------------------------------------------------------------------------- */
 
+// Can establish a "CheckAbilityTrigger" function and run it at certain pre-determined points,
+// like on attack or after death, examples:
+//      - CheckAbilityTrigger("Attack", hero, allies, enemies)
+//      - CheckAbilityTrigger("Death", hero, allies, enemies)
+// Also need to establish a trigger for Abilities -> anything self is easy, allies is harder
+//      - Attack & attacked, killed & died
+
 // Used by Character struct
-#[derive(Debug, PartialEq, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Deserialize)]
 pub struct Ability {
     statistic: String,
     target: String,

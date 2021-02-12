@@ -8,6 +8,7 @@ use crate::character;
 use character::Character;
 use crate::input;
 use crate::modifiers::Apply;
+use crate::modifiers::Aura;
 
 #[derive(Deserialize)]
 pub struct SquadConstructor {
@@ -54,20 +55,43 @@ impl SquadConstructor {
 /* --------------------------------------------------------------------------------------------- */
 
 fn apply_auras(mut squad: Vec<Character>) -> Vec<Character> {
+    // Loops twice: first over the squad to collect all auras and specific targets,
+    // and then again over the collected auras to apply them to the squad
+
+    // Note that auras that apply to self are applied in the first pass
+    let mut deferred_auras: Vec<Aura> = Vec::new();
     for character in squad.iter_mut() {
         for aura in character.auras.iter() {
-            if aura.target == "self".to_string() && aura.statistic == "health".to_string() {
-                let new_health: i32 = aura.change_health(character.health_max);
-                character.health_max = new_health;
-                character.health = new_health;
-            } else if aura.target == "self".to_string() && aura.statistic == "power".to_string() {
-                let new_power: i32 = aura.change_power(character.power);
-                character.power = new_power;
-            } else {
-
+            if aura.target == "self".to_string() {
+                if aura.statistic == "health".to_string() {
+                    let new_health: i32 = aura.change_health(character.health_max);
+                    character.health_max = new_health;
+                    character.health = new_health;
+                } else if aura.statistic == "power".to_string() {
+                    let new_power: i32 = aura.change_power(character.power);
+                    character.power = new_power;
+                }
+            } else { // collect for deferred initialization
+                deferred_auras.push(aura.clone());
             }
         }
     }
+    // Loop across deferred auras
+    for aura in deferred_auras {
+        if aura.target == "allies".to_string() { // handle auras for entire party
+            for character in squad.iter_mut() {
+                if aura.statistic == "health".to_string() {
+                    let new_health: i32 = aura.change_health(character.health_max);
+                    character.health_max = new_health;
+                    character.health = new_health;
+                } else if aura.statistic == "power".to_string() {
+                    let new_power: i32 = aura.change_power(character.power);
+                    character.power = new_power;
+                }
+            }
+        }
+    }
+
     return squad;
 }
 

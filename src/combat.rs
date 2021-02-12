@@ -39,7 +39,7 @@ fn attack(attacker: &mut Character, enemy_team: &mut Vec<Character>, enemy_team_
             // Make attack(s)
             attacker.print_attacking(&enemy_team[i].name);
             if crit {
-                enemy_team[i].take_damage(attacker.power * 2, crit);
+                enemy_team[i].take_damage(attacker.power * configs::CRITICAL_MULTIPLIER, crit);
             } else {
                 enemy_team[i].take_damage(attacker.power, crit);
             }

@@ -6,6 +6,10 @@ The game is written in pure, safe Rust.
 ### Where it's at
 Right now I'm still working on basic engine features, so while the game is technically "playable" there isn't much content to actually play with. Once the engine hits a stable state, I plan to backfill with content.
 
+What I've added:
+- Auras: pre-battle buffs to allies. Currently restricted to health and power.
+  - 2021/02/11: auras can now apply to allies too (so a hero can buff the health/power of their whole squad).
+
 ### How to Play<sup>\*</sup>
 
 <sup>\*</sup>Again, gameplay is *incredibly* barebones at the moment and really only available for test purposes. When you run the compiled binaries (not included...some compilation required) you should see the following message:
@@ -25,7 +29,11 @@ There are four positions: front-left, front-right, back-left, and back-right. Th
 - GoodMeleeRogue
 - GoodTank
 
-Their statistics are in the `data/characters` folder.
+Their statistics are in the `data/characters` folder. Once the game is closer to completion I'll add more detail here, but basically, the game works in the following way:
+- All heroes have health and power statistics.
+- When they make an attack, the power stat is subtracted off from the target's health stat, plus or minus armor & dodge ("dr" and "dt"), critical hits, etc.
+- All heroes have a preset targeting behavior. Most heroes target the front-liners in the enemy squad (put your tanks here!), but rogues and other slippery creatures can flank and attack the back row. Some characters, like the `dragon` in the test character set, attacks every character with its fiery breath.  
+- You "win" when the entire enemy squad is dead. (Since battles are automated, this is kinda boring, I know. The point of the game will be on acquiring, assembling, and deploying the right squad for the right challenges, but that comes later.)
 
 Your AI opponent controls the following squad:
 - Dragon (FL)

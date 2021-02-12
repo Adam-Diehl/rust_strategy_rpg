@@ -3,6 +3,7 @@ File to set global parameters (that are constant).
 */
 
 // Combat parameters
+pub const CRITICAL_MULTIPLIER: i32 = 2;
 pub const MINIMUM_DAMAGE: i32 = 10;
 pub const MAXIUMUM_DAMAGE_RESIST: f64 = 0.85;
 
