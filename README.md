@@ -1,5 +1,5 @@
 # Rust Strategy RPG (working title)
-This ~~is~~ will be a strategic squad-based role playing game (RPG) where players take on the role of a commander recruiting units, assigning them to squads, and then deploying those squads in battles that play out automatically based on the assigned units' abilities and behaviors. Right now, the game's engine is being developed.
+This ~~is~~ will be a strategic squad-based role playing game (RPG) where players take on the role of a commander recruiting units, assigning them to squads, and then deploying those squads in battles that play out automatically based on the assigned units' abilities and behaviors. Right now, the game's engine is being developed. This repository will include the files for the game engine, and associated test data. Any actual game data (essentially, an implementation using the engine) will be distributed through other channels.
 
 The game is written in pure, safe Rust.
 
@@ -16,10 +16,52 @@ What I've added:
 
 ```
 Welcome to <Rust Strategy RPG>! [Working title]
-Choose character for the front-left position:
+You must defeat a squad of evil-doers consisting of the following characters:
+--------------------
+Name: The Dragon
+Health: 163800
+Power: 6000 | Crit. Chance: 10%
+Speed: -2
+Attacks all.
+Grants allies 40% health.
+--------------------
+
+--------------------
+Name: The Evil Tank
+Health: 127400
+Power: 8400 | Crit. Chance: 5%
+Speed: -1
+Attacks a single enemy.
+Grants allies 30% health.
+--------------------
+
+--------------------
+Name: The Evil Swordsman
+Health: 218400
+Power: 9600 | Crit. Chance: 5%
+Speed: -1
+Attacks a single enemy.
+Grants self 60% health.
+--------------------
+
+--------------------
+Name: The Evil Mage
+Health: 81900
+Power: 14400 | Crit. Chance: 10%
+Speed: -3
+Attacks all.
+Grants allies 20% power.
+--------------------
+
+You can choose from the following characters:
+ - GoodArcherRogue
+ - GoodMeleeRogue
+ - GoodSwordsman
+ - GoodTank
+
 ```
 
-There are four positions: front-left, front-right, back-left, and back-right. The front row will tend to get attacked first (some characters, like the mage, have AOE, and others like the "GoodMeleeRogue" can flank), so tanks should go here. You can assemble a squad of 4 characters from the following test units:
+You will be asked to fill the four slots in your squad. There are four positions: front-left, front-right, back-left, and back-right. The front row will tend to get attacked first (some characters, like the mage, have AOE, and others like the "GoodMeleeRogue" can flank), so tanks should go here. You can assemble a squad of 4 characters from the following test units (you can actually use 'evil' units, it's just not prompted in the UI):
 - Dragon
 - EvilSwordsman
 - GoodArcherRogue
@@ -29,7 +71,7 @@ There are four positions: front-left, front-right, back-left, and back-right. Th
 - GoodMeleeRogue
 - GoodTank
 
-Their statistics are in the `data/characters` folder. Once the game is closer to completion I'll add more detail here, but basically, the game works in the following way:
+Their statistics are in the `data/characters` folder. Note that the game is displaying "effective" statistics, *after* auras are applied. Once the game is closer to completion I'll add more detail here, but basically, the game works in the following way:
 - All heroes have health and power statistics.
 - When they make an attack, the power stat is subtracted off from the target's health stat, plus or minus armor & dodge ("dr" and "dt"), critical hits, etc.
 - All heroes have a preset targeting behavior. Most heroes target the front-liners in the enemy squad (put your tanks here!), but rogues and other slippery creatures can flank and attack the back row. Some characters, like the `dragon` in the test character set, attacks every character with its fiery breath.  
