@@ -130,10 +130,10 @@ impl Character {
 
     pub fn print_pretty_stats(&self) {
         println!("--------------------");
-        println!("| Name: {}", self.name);
-        println!("| Health: {}", self.health);
-        println!("| Power: {}", self.power);
-        println!("| Crit. Chance: {}%", 100.0 * self.critical_chance);
+        println!("Name: {}", self.name);
+        println!("Health: {}", self.health);
+        println!("Power: {} | Crit. Chance: {}%", self.power, 100.0 * self.critical_chance);
+        println!("Speed: {}", self.speed);
         println!("{}", self.description);
         println!("--------------------\n");
     }
@@ -193,10 +193,10 @@ mod tests {
         const EXPECTED_DR: f64 = 0.0;
         let input_tags: Vec<String> = vec!["null".to_string()];
         let input_auras: Vec<Aura> = vec![Aura::new("null", "null", 0.0)];
-        let input_abilities: Vec<Ability> = vec![Ability::new("null", "null", 0.0)];
+        let input_abilities: Vec<Ability> = vec![Ability::new("null", "null", 0.0, "null")];
         let expected_tags: Vec<String> = vec!["null".to_string()];
         let expected_auras: Vec<Aura> = vec![Aura::new("null", "null", 0.0)];
-        let expected_abilities: Vec<Ability> = vec![Ability::new("null", "null", 0.0)];
+        let expected_abilities: Vec<Ability> = vec![Ability::new("null", "null", 0.0, "null")];
 
         let test_character = Character::new(EXPECTED_NAME, EXPECTED_CLASS, EXPECTED_SPEED,
             EXPECTED_HEALTH, EXPECTED_POWER, EXPECTED_CRIT, &expected_attack_type, EXPECTED_DT,
@@ -228,7 +228,7 @@ mod tests {
         const DR: f64 = 0.0;
         let tags: Vec<String> = vec!["null".to_string()];
         let auras: Vec<Aura> = vec![Aura::new("null", "null", 0.0)];
-        let abilities: Vec<Ability> = vec![Ability::new("null", "null", 0.0)];
+        let abilities: Vec<Ability> = vec![Ability::new("null", "null", 0.0, "null")];
         const INCOMING_DAMAGE: i32 = 10;
         const EXPECTED_HEALTH: i32 = 10;
 
@@ -252,7 +252,7 @@ mod tests {
         const DR: f64 = 0.0;
         let tags: Vec<String> = vec!["null".to_string()];
         let auras: Vec<Aura> = vec![Aura::new("null", "null", 0.0)];
-        let abilities: Vec<Ability> = vec![Ability::new("null", "null", 0.0)];
+        let abilities: Vec<Ability> = vec![Ability::new("null", "null", 0.0, "null")];
         const INCOMING_DAMAGE: i32 = 15;
         const EXPECTED_HEALTH: i32 = 6;
 
@@ -276,7 +276,7 @@ mod tests {
         const DR: f64 = 0.2;
         let tags: Vec<String> = vec!["null".to_string()];
         let auras: Vec<Aura> = vec![Aura::new("null", "null", 0.0)];
-        let abilities: Vec<Ability> = vec![Ability::new("null", "null", 0.0)];
+        let abilities: Vec<Ability> = vec![Ability::new("null", "null", 0.0, "null")];
         const INCOMING_DAMAGE: i32 = 50;
         const EXPECTED_HEALTH: i32 = 60;
 
@@ -300,7 +300,7 @@ mod tests {
         const DR: f64 = 0.2;
         let tags: Vec<String> = vec!["null".to_string()];
         let auras: Vec<Aura> = vec![Aura::new("null", "null", 0.0)];
-        let abilities: Vec<Ability> = vec![Ability::new("null", "null", 0.0)];
+        let abilities: Vec<Ability> = vec![Ability::new("null", "null", 0.0, "null")];
         const INCOMING_DAMAGE: i32 = 50;
         const EXPECTED_HEALTH: i32 = 61;
 
@@ -324,7 +324,7 @@ mod tests {
         const DR: f64 = 0.0;
         let tags: Vec<String> = vec!["null".to_string()];
         let auras: Vec<Aura> = vec![Aura::new("null", "null", 0.0)];
-        let abilities: Vec<Ability> = vec![Ability::new("null", "null", 0.0)];
+        let abilities: Vec<Ability> = vec![Ability::new("null", "null", 0.0, "null")];
         const INCOMING_DAMAGE: i32 = 40;
         const EXPECTED_DEATH: bool = true;
 

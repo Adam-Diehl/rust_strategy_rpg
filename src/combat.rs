@@ -153,9 +153,9 @@ mod tests {
         let tags_b: Vec<String> = vec!["null".to_string()];
         let tags_l: Vec<String> = vec!["null".to_string()];
         let auras_b: Vec<Aura> = vec![Aura::new("null", "null", 0.0)];
-        let abilities_b: Vec<Ability> = vec![Ability::new("null", "null", 0.0)];
+        let abilities_b: Vec<Ability> = vec![Ability::new("null", "null", 0.0, "null")];
         let auras_l: Vec<Aura> = vec![Aura::new("null", "null", 0.0)];
-        let abilities_l: Vec<Ability> = vec![Ability::new("null", "null", 0.0)];
+        let abilities_l: Vec<Ability> = vec![Ability::new("null", "null", 0.0, "null")];
         let expected_init: Vec<(i32, String, usize)> = vec![(0, "villain".to_string(), 0usize),
             (1, "hero".to_string(), 0usize)];
 

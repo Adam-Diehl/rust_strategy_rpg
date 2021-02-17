@@ -19,6 +19,7 @@ abilities:
   - statistic: "null"
     target: "null"
     value: 0.0
+    trigger_event: "null"
 xp: 0
 level: 1
 description: "Attacks a single target.\nGrants allies 40% health."

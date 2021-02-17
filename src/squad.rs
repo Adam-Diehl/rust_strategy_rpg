@@ -1,3 +1,9 @@
+/*
+A squad is a vector of characters (order matters!). Most combat operations involve looping over a
+squad. This file holds the SquadConstructor struct, which consumes a vector of strings and returns
+a vector of Character (structs), applying relevant auras and whatnot. 
+*/
+
 use serde::Deserialize;
 use std::error::Error;
 use std::fs::File;
@@ -73,6 +79,9 @@ fn apply_auras(mut squad: Vec<Character>) -> Vec<Character> {
                 } else if aura.statistic == "critical chance".to_string() {
                     let new_crit: f64 = aura.change_crit_chance(character.critical_chance);
                     character.critical_chance = new_crit;
+                } else if aura.statistic == "speed".to_string() {
+                    let new_speed: i32 = aura.change_speed(character.speed);
+                    character.speed = new_speed;
                 }
             } else { // collect for deferred initialization
                 deferred_auras.push(aura.clone());
@@ -93,6 +102,9 @@ fn apply_auras(mut squad: Vec<Character>) -> Vec<Character> {
                 } else if aura.statistic == "critical chance".to_string() {
                     let new_crit: f64 = aura.change_crit_chance(character.critical_chance);
                     character.critical_chance = new_crit;
+                } else if aura.statistic == "speed".to_string() {
+                    let new_speed: i32 = aura.change_speed(character.speed);
+                    character.speed = new_speed;
                 }
             }
         }
