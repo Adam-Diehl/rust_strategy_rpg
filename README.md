@@ -196,15 +196,19 @@ Current test status: **all passing**
 <br>
 
 ```
+running 25 tests
 test character::tests::test_new ... ok
-test character::tests::test_take_damage_dr_only ... ok
 test character::tests::test_is_dead ... ok
+test character::tests::test_take_damage_dr_only ... ok
 test character::tests::test_take_damage_dt_and_dr ... ok
 test character::tests::test_take_damage_dt_only ... ok
 test character::tests::test_take_damage_no_armor ... ok
 test combat::tests::test_calculate_initiave ... ok
+test modifiers::tests::test_aura_change_crit_chance ... ok
 test modifiers::tests::test_aura_change_health ... ok
 test modifiers::tests::test_aura_change_power ... ok
+test modifiers::tests::test_aura_change_speed ... ok
+test modifiers::tests::test_aura_convert_and_add_i32 ... ok
 test modifiers::tests::test_aura_convert_and_multiply_f64 ... ok
 test modifiers::tests::test_aura_convert_and_multiply_i32 ... ok
 test targeting::tests::test_attack_to_coordinates_all ... ok
@@ -219,7 +223,7 @@ test targeting::tests::test_attack_to_coordinates_single_back ... ok
 test targeting::tests::test_attack_to_coordinates_single_flanker ... ok
 test targeting::tests::test_attack_to_coordinates_single_front ... ok
 
-test result: ok. 22 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+test result: ok. 25 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
 ```
 
 </details>
