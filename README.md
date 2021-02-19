@@ -9,6 +9,8 @@ Right now I'm still working on basic engine features, so while the game is techn
 What I've added:
 - Auras: pre-battle buffs to allies. Currently restricted to health and power.
   - 2021/02/11: auras can now apply to allies too (so a hero can buff the health/power of their whole squad).
+- Abilities (WIP): active effects triggered by certain events during combat (currently, just attacks).
+  - 2021/02/16: abilities triggered when attacking now work for self, allies, and enemies. These abilities are the same stat changes as auras. I've confirmed they work manually but haven't added unit tests for them yet.
 
 ### How to Play<sup>\*</sup>
 
@@ -22,7 +24,7 @@ Name: The Dragon
 Health: 163800
 Power: 6000 | Crit. Chance: 10%
 Speed: -2
-Attacks all.
+Attacks all and drains enemy power by 20%.
 Grants allies 40% health.
 --------------------
 
@@ -31,7 +33,7 @@ Name: The Evil Tank
 Health: 127400
 Power: 8400 | Crit. Chance: 5%
 Speed: -1
-Attacks a single enemy.
+Attacks a single enemy and heals 35%.
 Grants allies 30% health.
 --------------------
 
@@ -47,9 +49,9 @@ Grants self 60% health.
 --------------------
 Name: The Evil Mage
 Health: 81900
-Power: 14400 | Crit. Chance: 10%
+Power: 18000 | Crit. Chance: 10%
 Speed: -3
-Attacks all.
+Attacks all, slows by 1, and power gains allies 10%.
 Grants allies 20% power.
 --------------------
 

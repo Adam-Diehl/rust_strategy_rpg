@@ -2,8 +2,8 @@
 name: "The Good Swordsman"
 class: "Warrior"
 speed: 0
-health: 40000
-health_max: 40000
+health: 45000
+health_max: 45000
 power: 12000
 critical_chance: 0.1
 attack_type: "row"

@@ -18,7 +18,7 @@ use crate::configs;
 pub trait Apply {
     fn convert_and_add<T: Into<f64> + Copy>(&self, base_value: T) -> f64;
     fn convert_and_multiply<T: Into<f64> + Copy>(&self, base_value: T) -> f64;
-    fn change_health(&self, base_value: i32) -> i32;
+    fn change_health(&self, base_value: i32, max_value: i32) -> i32;
     fn change_power(&self, base_value: i32) -> i32;
     fn change_crit_chance(&self, base_value: f64) -> f64;
     fn change_speed(&self, base_value: i32) -> i32;
@@ -52,7 +52,7 @@ impl Apply for Aura {
     }
 
     // Auras don't need a reference to maximum health because they can change it (abilities will need a cap)
-    fn change_health(&self, base_value: i32) -> i32 {
+    fn change_health(&self, base_value: i32, _max_value: i32) -> i32 {
         return self.convert_and_multiply(base_value).round() as i32
     }
 
@@ -85,10 +85,10 @@ impl Apply for Aura {
 // Used by Character struct
 #[derive(Clone, Debug, PartialEq, Deserialize)]
 pub struct Ability {
-    statistic: String,
-    target: String,
-    value: f64,
-    trigger_event: String
+    pub statistic: String,
+    pub target: String,
+    pub value: f64,
+    pub trigger_event: String
 }
 
 impl Ability {
@@ -106,9 +106,48 @@ impl Ability {
     }
 }
 
-// impl Apply for Ability {
-//
-// }
+impl Apply for Ability {
+    // Take input (i32 or f64), convert to f64, multiply, then return
+    fn convert_and_multiply<T: Into<f64> + Copy>(&self, base_value: T) -> f64 {
+        return base_value.into() * (1.0 + self.value)
+    }
+
+    // Take input (i32 or f64), convert to f64, add, then return
+    fn convert_and_add<T: Into<f64> + Copy>(&self, base_value: T) -> f64 {
+        return base_value.into() + self.value
+    }
+
+    // Health is bounded to starting health to prevent endless battles
+    fn change_health(&self, base_value: i32, max_value: i32) -> i32 {
+        let new_health: i32 = self.convert_and_multiply(base_value).round() as i32;
+        if new_health <= max_value {
+            return new_health
+        } else {
+            return max_value
+        }
+    }
+
+    // Power is uncapped but bounded below
+    fn change_power(&self, base_value: i32) -> i32 {
+        let new_power: i32 = self.convert_and_multiply(base_value).round() as i32;
+        if new_power < configs::MINIMUM_POWER {
+            return configs::MINIMUM_POWER
+        } else {
+            return new_power
+        }
+    }
+
+    // Crit chance is capped at 99%
+    fn change_crit_chance(&self, base_value: f64) -> f64 {
+        let new_crit_chance: f64 = self.convert_and_multiply(base_value);
+        return new_crit_chance.min(configs::CRITICAL_CHANCE_CAP)
+    }
+
+    // Speed is uncapped
+    fn change_speed(&self, base_value: i32) -> i32 {
+        return self.convert_and_add(base_value).round() as i32
+    }
+}
 
 /* --------------------------------------------------------------------------------------------- */
 
@@ -160,7 +199,7 @@ mod tests {
         let test_aura = Aura::new("health", "self", VALUE);
         const EXPECTED_VALUE: i32 = 140;
 
-        let new_value = test_aura.change_health(INPUT_BASE);
+        let new_value = test_aura.change_health(INPUT_BASE, configs::MAXIMUM_HEALTH);
 
         assert_eq!(new_value, EXPECTED_VALUE);
     }

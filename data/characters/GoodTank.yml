@@ -16,10 +16,10 @@ auras:
     target: "allies"
     value: 0.4
 abilities:
-  - statistic: "null"
-    target: "null"
-    value: 0.0
-    trigger_event: "null"
+  - statistic: "health"
+    target: "allies"
+    value: 0.25
+    trigger_event: "attack"
 xp: 0
 level: 1
-description: "Attacks a single target.\nGrants allies 40% health."
+description: "Attacks a single target and heals allies 25%.\nGrants allies 40% health."

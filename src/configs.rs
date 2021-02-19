@@ -7,6 +7,8 @@ pub const CRITICAL_CHANCE_CAP: f64 = 0.99;
 pub const CRITICAL_MULTIPLIER: i32 = 2;
 pub const MINIMUM_DAMAGE: i32 = 10;
 pub const MAXIUMUM_DAMAGE_RESIST: f64 = 0.85;
+pub const MINIMUM_POWER: i32 = 10;
+pub const MAXIMUM_HEALTH: i32 = i32::MAX;
 
 // Combat IO parameters
 pub const HEALTH_LEVEL_GREEN: i32 = 67;

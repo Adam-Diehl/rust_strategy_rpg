@@ -1,7 +1,7 @@
 /*
 A squad is a vector of characters (order matters!). Most combat operations involve looping over a
 squad. This file holds the SquadConstructor struct, which consumes a vector of strings and returns
-a vector of Character (structs), applying relevant auras and whatnot. 
+a vector of Character (structs), applying relevant auras and whatnot.
 */
 
 use serde::Deserialize;
@@ -12,6 +12,7 @@ use std::path::Path;
 
 use crate::character;
 use character::Character;
+use crate::configs;
 use crate::input;
 use crate::modifiers::Apply;
 use crate::modifiers::Aura;
@@ -70,7 +71,7 @@ fn apply_auras(mut squad: Vec<Character>) -> Vec<Character> {
         for aura in character.auras.iter() {
             if aura.target == "self".to_string() {
                 if aura.statistic == "health".to_string() {
-                    let new_health: i32 = aura.change_health(character.health_max);
+                    let new_health: i32 = aura.change_health(character.health_max, configs::MAXIMUM_HEALTH);
                     character.health_max = new_health;
                     character.health = new_health;
                 } else if aura.statistic == "power".to_string() {
@@ -93,7 +94,7 @@ fn apply_auras(mut squad: Vec<Character>) -> Vec<Character> {
         if aura.target == "allies".to_string() { // handle auras for entire party
             for character in squad.iter_mut() {
                 if aura.statistic == "health".to_string() {
-                    let new_health: i32 = aura.change_health(character.health_max);
+                    let new_health: i32 = aura.change_health(character.health_max, configs::MAXIMUM_HEALTH);
                     character.health_max = new_health;
                     character.health = new_health;
                 } else if aura.statistic == "power".to_string() {

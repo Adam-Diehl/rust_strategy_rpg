@@ -1,13 +1,16 @@
 use crate::configs;
 use crate::character;
 use character::Character;
+#[allow(unused_imports)]
 use crate::modifiers::Aura; // used by tests
 use crate::modifiers::Ability; // used by tests
+use crate::modifiers::Apply;
 use crate::targeting;
 use rand;
 
 // Loops through teams and pushes a vector sorted by character's speed
-pub fn calculate_initiative(hero_team: &Vec<Character>, villain_team: &Vec<Character>) -> Vec<(i32, String, usize)> {
+pub fn calculate_initiative(hero_team: &Vec<Character>, villain_team: &Vec<Character>) -> Vec<(i32,
+    String, usize)> {
     let mut initiative = Vec::with_capacity(2usize * configs::TEAM_SIZE); // 2 teams
     for (index, character) in hero_team.iter().enumerate() {
         if ! character.is_dead() {
@@ -24,10 +27,96 @@ pub fn calculate_initiative(hero_team: &Vec<Character>, villain_team: &Vec<Chara
     return initiative
 }
 
+// Apply effects of abilities after appropriate triggers
+fn handle_abilities(trigger: &str, source: usize, allied_team: &mut Vec<Character>,
+    enemy_team: &mut Vec<Character>) {
+    /*
+    Stages of this function:
+        - Stage 1: collect the relevant abilities to be applied
+        - Stage 2: route and apply based on the appropriate event trigger
+
+    Only handles on attack effects right now
+    */
+    // Stage 1
+    let source_ability_list: Vec<Ability> = allied_team[source].abilities.clone();
+    let mut relevant_source_abilities: Vec<Ability> = Vec::new();
+    for ability in source_ability_list.iter() {
+        if ability.check_ability_trigger(trigger) {
+            relevant_source_abilities.push(ability.clone());
+        }
+    }
+    // Stage 2
+    if trigger == "attack" {
+        for ability in relevant_source_abilities.iter() {
+            // Allies
+            if ability.target == "allies".to_string() {
+                for character_current in allied_team.iter_mut() {
+                    if ability.statistic == "health".to_string() {
+                        let new_health: i32 = ability.change_health(character_current.health, character_current.health_max);
+                        character_current.health_max = new_health;
+                        character_current.health = new_health;
+                    } else if ability.statistic == "power".to_string() {
+                        let new_power: i32 = ability.change_power(character_current.power);
+                        character_current.power = new_power;
+                    } else if ability.statistic == "critical chance".to_string() {
+                        let new_crit: f64 = ability.change_crit_chance(character_current.critical_chance);
+                        character_current.critical_chance = new_crit;
+                    } else if ability.statistic == "speed".to_string() {
+                        let new_speed: i32 = ability.change_speed(character_current.speed);
+                        character_current.speed = new_speed;
+                    }
+                }
+            } else if ability.target == "enemies".to_string() {
+                // Enemies
+                for character_current in enemy_team.iter_mut () {
+                    if ability.statistic == "health".to_string() {
+                        let new_health: i32 = ability.change_health(character_current.health, character_current.health_max);
+                        character_current.health_max = new_health;
+                        character_current.health = new_health;
+                    } else if ability.statistic == "power".to_string() {
+                        let new_power: i32 = ability.change_power(character_current.power);
+                        character_current.power = new_power;
+                    } else if ability.statistic == "critical chance".to_string() {
+                        let new_crit: f64 = ability.change_crit_chance(character_current.critical_chance);
+                        character_current.critical_chance = new_crit;
+                    } else if ability.statistic == "speed".to_string() {
+                        let new_speed: i32 = ability.change_speed(character_current.speed);
+                        character_current.speed = new_speed;
+                    }
+                }
+            } else if ability.target == "self".to_string() {
+                if ability.statistic == "health".to_string() {
+                    let new_health: i32 = ability.change_health(allied_team[source].health, allied_team[source].health_max);
+                    allied_team[source].health_max = new_health;
+                    allied_team[source].health = new_health;
+                } else if ability.statistic == "power".to_string() {
+                    let new_power: i32 = ability.change_power(allied_team[source].power);
+                    allied_team[source].power = new_power;
+                } else if ability.statistic == "critical chance".to_string() {
+                    let new_crit: f64 = ability.change_crit_chance(allied_team[source].critical_chance);
+                    allied_team[source].critical_chance = new_crit;
+                } else if ability.statistic == "speed".to_string() {
+                    let new_speed: i32 = ability.change_speed(allied_team[source].speed);
+                    allied_team[source].speed = new_speed;
+                }
+            }
+        }
+    } else if trigger == "attacked" {
+
+    } else if trigger == "killed" {
+
+    } else if trigger == "died" {
+
+    }
+
+}
+
 // Call out to Targeting module to decide targets, then attacks targets (per character)
-fn attack(attacker: &mut Character, enemy_team: &mut Vec<Character>, enemy_team_alive: Vec<bool>) {
+fn attack(attacker: &mut Character, enemy_team: &mut Vec<Character>, enemy_team_alive: Vec<bool>) -> Vec<bool> {
     let attack_type: &str = &attacker.attack_type;
-    let targeting_data: Vec<bool> = targeting::attack_type_to_coordinates(attack_type, enemy_team_alive, &attacker.tags);
+    let targeting_data: Vec<bool> = targeting::attack_type_to_coordinates(attack_type,
+        enemy_team_alive, &attacker.tags);
+    let mut attacked_targets: Vec<bool> = vec![false; configs::TEAM_SIZE];
     for i in 0..enemy_team.len() {
         if targeting_data[i] { // If attacker should attack target
             // Check for crit on attack
@@ -45,13 +134,19 @@ fn attack(attacker: &mut Character, enemy_team: &mut Vec<Character>, enemy_team_
             }
             if enemy_team[i].is_dead() {
                 enemy_team[i].print_died();
+            } else {
+                attacked_targets[i] = true; // if alive, mark as attacked
             }
         }
     }
+    return attacked_targets
 }
 
+
+
 // Loop through in initiative order and attack, then check exit conditions
-fn run_combat_round(mut initiative_order: Vec<(i32, String, usize)>, hero_team: &mut Vec<Character>, villain_team: &mut Vec<Character>) -> bool {
+fn run_combat_round(mut initiative_order: Vec<(i32, String, usize)>,
+hero_team: &mut Vec<Character>, villain_team: &mut Vec<Character>) -> bool {
     for _i in 0..initiative_order.len() {
         let initiative_metadata = initiative_order.pop().unwrap();
         let hero_index: usize = initiative_metadata.2;
@@ -78,11 +173,13 @@ fn run_combat_round(mut initiative_order: Vec<(i32, String, usize)>, hero_team: 
         // Route the attacks properly: heroes attack villains, villains attack heros
         if team_assignment == String::from("hero") {
             if ! hero_team[hero_index].is_dead() {
-                attack(&mut hero_team[hero_index], villain_team, villain_team_alive);
+                let _alive_targets: Vec<bool> = attack(&mut hero_team[hero_index], villain_team, villain_team_alive);
+                handle_abilities("attack", hero_index, hero_team, villain_team);
             }
         } else {
             if ! villain_team[hero_index].is_dead() {
-                attack(&mut villain_team[hero_index], hero_team, hero_team_alive);
+                let _alive_targets: Vec<bool> = attack(&mut villain_team[hero_index], hero_team, hero_team_alive);
+                handle_abilities("attack", hero_index, villain_team, hero_team);
             }
         }
     }
@@ -117,20 +214,6 @@ pub fn run_combat(hero_team: &mut Vec<Character>, villain_team: &mut Vec<Charact
         loop_count += 1;
     }
 }
-
-// Loop through the rounds until all members of one of the teams are dead
-// pub fn run_combat(hero_team: &mut Vec<&mut Character>, villain_team: &mut Vec<&mut Character>) {
-//     let mut loop_count: u32 = 1;
-//     loop {
-//         println!("\n# --- ROUND {} --- #", loop_count);
-//         let init = calculate_initiative(&hero_team, &villain_team);
-//         let continue_combat: bool = run_combat_round(init, hero_team, villain_team);
-//         if ! continue_combat {
-//             break;
-//         }
-//         loop_count += 1;
-//     }
-// }
 
 #[cfg(test)]
 mod tests {

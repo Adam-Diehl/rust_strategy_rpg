@@ -16,10 +16,10 @@ auras:
     target: "allies"
     value: 0.4
 abilities:
-  - statistic: "null"
-    target: "null"
-    value: 0.0
-    trigger_event: "null"
+  - statistic: "power"
+    target: "enemies"
+    value: -0.2
+    trigger_event: "attack"
 xp: 0
 level: 1
-description: "Attacks all.\nGrants allies 40% health."
+description: "Attacks all and drains enemy power by 20%.\nGrants allies 40% health."
